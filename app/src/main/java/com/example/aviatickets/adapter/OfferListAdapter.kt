@@ -2,24 +2,14 @@ package com.example.aviatickets.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.aviatickets.R
 import com.example.aviatickets.databinding.ItemOfferBinding
 import com.example.aviatickets.model.entity.Offer
 
-class OfferListAdapter : RecyclerView.Adapter<OfferListAdapter.ViewHolder>() {
-
-    private val items: ArrayList<Offer> = arrayListOf()
-
-    fun setItems(offerList: List<Offer>) {
-        items.clear()
-        items.addAll(offerList)
-        notifyDataSetChanged()
-
-        /**
-         * think about recycler view optimization using diff.util
-         */
-    }
+class OfferListAdapter : ListAdapter<Offer, OfferListAdapter.ViewHolder>(OfferDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -31,12 +21,8 @@ class OfferListAdapter : RecyclerView.Adapter<OfferListAdapter.ViewHolder>() {
         )
     }
 
-    override fun getItemCount(): Int {
-        return items.size
-    }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(getItem(position))
     }
 
     inner class ViewHolder(
@@ -63,6 +49,18 @@ class OfferListAdapter : RecyclerView.Adapter<OfferListAdapter.ViewHolder>() {
                 )
                 direct.text = context.getString(R.string.direct)
                 price.text = context.getString(R.string.price_fmt, offer.price.toString())
+
+                Glide.with(context)
+                    .load(
+                        when (flight.airline.name) {
+                            "SCAT Airlines" -> "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/SCAT_Air_Company_Logo.svg/2560px-SCAT_Air_Company_Logo.svg.png"
+                            "FlyArystan" -> "https://upload.wikimedia.org/wikipedia/ru/thumb/4/4c/FlyArystan_regular_logo.png/640px-FlyArystan_regular_logo.png"
+                            "Air Astana" -> "https://upload.wikimedia.org/wikipedia/ru/thumb/a/a7/Air_Astana_logo.svg/2560px-Air_Astana_logo.svg.png"
+                            "QazaqAir" -> "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/QA.png/640px-QA.png"
+                            else -> ""
+                        }
+                    )
+                    .into(airlineImage)
             }
         }
 
