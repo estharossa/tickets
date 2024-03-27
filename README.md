@@ -1,4 +1,4 @@
-![alt text](test.mov)
+![alt text](ezgif-4-b1d89fa174.gif)
 
 # Midterm Exam Instructions
 
