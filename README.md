@@ -1,3 +1,5 @@
+![alt text](test.mov)
+
 # Midterm Exam Instructions
 
 Midterm Exam is for Android course Students of KBTU Spring 2023-2024
